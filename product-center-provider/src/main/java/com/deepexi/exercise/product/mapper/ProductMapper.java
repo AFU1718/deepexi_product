@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by donh on 2018/7/24.
  */
-@Service
+//@Service
 public interface ProductMapper extends BaseMapper<Product> {
 
     void createProduct(@Param("product")Product product);
