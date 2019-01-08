@@ -4,9 +4,41 @@
 <!--客户映射 指定到dao接口 -->
 <mapper namespace="com.deepexi.exercise.product.mapper.ProductMapper">
     <!--id与dao接口的方法名一直，指定结果类型，和参数类型 -->
+    
+    <insert id="createProduct" parameterType="com.deepexi.exercise.product.domain.eo.Product">
+        insert into product (name, price, shopId)
+        values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER},  #{shopId,jdbcType=INTEGER})
+    </insert>
 
-    <select id="selectPageVo" resultType="com.deepexi.exercise.product.domain.eo.Product">
-        SELECT * FROM product WHERE price > #{price}
+    <delete id="deleteProductById" parameterType="java.lang.Integer">
+        delete from product where id =#{id}
+    </delete>
+
+    <update id="updateProduct"  parameterType="com.deepexi.exercise.product.domain.eo.Product">
+        UPDATE product
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null and name.length()>0">name =#{name},</if>
+            <if test="price!=null">price #{price},</if>
+            <if test="shopId!=null">shopId =#{shopId},</if>
+        </trim>
+        WHERE id =#{id}
+    </update>
+
+    <select id="getProductByIdAndShopId" parameterType="com.deepexi.exercise.product.VO.ProductSearchVO" resultType="com.deepexi.exercise.product.domain.eo.Product">
+        SELECT * FROM product WHERE id = #{id} and shopId=  #{shopId}
     </select>
+
+    <select id="getProductListByShopId" parameterType="com.deepexi.exercise.product.VO.ProductSearchVO" resultType="com.deepexi.exercise.product.domain.eo.Product">
+        SELECT * FROM product
+        <where>
+            <if test="shopId !=null">
+                and shopId=  #{shopId}
+            </if>
+            <if test="page !=null and size !=null">
+                limit (#{page}-1) * #{size} , #{size}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

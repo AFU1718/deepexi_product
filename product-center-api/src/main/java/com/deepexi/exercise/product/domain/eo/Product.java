@@ -6,6 +6,8 @@ public class Product extends SuperEntity {
 
     private Integer price;
 
+    private Integer  shopId;
+
     public Product() {}
 
     public Product(String name, Integer price) {
@@ -27,6 +29,14 @@ public class Product extends SuperEntity {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 }
 
